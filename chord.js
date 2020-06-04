@@ -43,7 +43,6 @@ slider.onmouseup = function () {
             curFile = "migration6.csv"
             break;
     }
-    document.getElementById("select2").value = "default"
     d3.selectAll("svg > *").remove();
     // console.log(display, curFile)
     main();
@@ -96,11 +95,11 @@ var ribbon = d3.ribbon()
     chord = d3.chord()
         .padAngle(chordPadding)
         // .sortGroups(d3.descending)
-        .sortSubgroups(d3.descending)
+        .sortSubgroups(d3.descending),
 
-arc = d3.arc()
-    .innerRadius(innerRadius)
-    .outerRadius(outerRadius),
+    arc = d3.arc()
+        .innerRadius(innerRadius)
+        .outerRadius(outerRadius),
 
     color1 = d3.scaleOrdinal()
         .range(['#baffc9', '#77dd77']),
@@ -353,6 +352,8 @@ function render(data) {
         .attr("transform", d => d.angle > Math.PI ? "rotate(180) translate(-15)" : null)
         .attr("text-anchor", d => d.angle > Math.PI ? "end" : null)
         .text(d => formatValue(d.value));
+
+    toggle2();
 }
 
 // Sets up hover interaction to highlight a chord group.
@@ -471,7 +472,7 @@ function aggregate(data, hierarchy) {
 }
 
 let toggle = () => {
-    document.getElementById("select2").value = "default"
+    // document.getElementById("select2").value = "default"
     var x = document.getElementById("select").value;
     // console.log(x)
     switch (x) {
@@ -501,288 +502,288 @@ let toggle2 = () => {
     var x = document.getElementById("select2").value;
 
     g.selectAll(".ribbon")
-    .on("mouseenter", function (d) {
-        var src = m[d.source.index];
-        var dest = m[d.target.index];
-        popoverOptions.content = [
-            "<strong>" + src + " to " + dest + "</strong>",
-            valueFormat(d.target.value),
-            "<br><strong>" + dest + " to " + src + "</strong>",
-            valueFormat(d.source.value)
-        ].join("<br>");
-        $(this).popover(popoverOptions);
-        $(this).popover("show");
-    })
-    .on("mouseleave", function (d) {
-        $(this).popover("hide");
-    })
-    .transition().duration(transitionDuration)
-    .style("opacity", opacity);
+        .on("mouseenter", function (d) {
+            var src = m[d.source.index];
+            var dest = m[d.target.index];
+            popoverOptions.content = [
+                "<strong>" + src + " to " + dest + "</strong>",
+                valueFormat(d.target.value),
+                "<br><strong>" + dest + " to " + src + "</strong>",
+                valueFormat(d.source.value)
+            ].join("<br>");
+            $(this).popover(popoverOptions);
+            $(this).popover("show");
+        })
+        .on("mouseleave", function (d) {
+            $(this).popover("hide");
+        })
+        .transition().duration(transitionDuration)
+        .style("opacity", opacity);
 
     switch (x) {
         case "ne":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Northern Europe")) &&
-                    (ribbon.target.index !== m.indexOf("Northern Europe"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Northern Europe")) &&
+                        (ribbon.target.index !== m.indexOf("Northern Europe"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "ee":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Eastern Europe")) &&
-                    (ribbon.target.index !== m.indexOf("Eastern Europe"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Eastern Europe")) &&
+                        (ribbon.target.index !== m.indexOf("Eastern Europe"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "we":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Western Europe")) &&
-                    (ribbon.target.index !== m.indexOf("Western Europe"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Western Europe")) &&
+                        (ribbon.target.index !== m.indexOf("Western Europe"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "se":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Southern Europe")) &&
-                    (ribbon.target.index !== m.indexOf("Southern Europe"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Southern Europe")) &&
+                        (ribbon.target.index !== m.indexOf("Southern Europe"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "na":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Northern America")) &&
-                    (ribbon.target.index !== m.indexOf("Northern America"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Northern America")) &&
+                        (ribbon.target.index !== m.indexOf("Northern America"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "sa":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("South America")) &&
-                    (ribbon.target.index !== m.indexOf("South America"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("South America")) &&
+                        (ribbon.target.index !== m.indexOf("South America"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "ca":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Central America")) &&
-                    (ribbon.target.index !== m.indexOf("Central America"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Central America")) &&
+                        (ribbon.target.index !== m.indexOf("Central America"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "naf":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Northern Africa")) &&
-                    (ribbon.target.index !== m.indexOf("Northern Africa"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Northern Africa")) &&
+                        (ribbon.target.index !== m.indexOf("Northern Africa"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "eaf":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Eastern Africa")) &&
-                    (ribbon.target.index !== m.indexOf("Eastern Africa"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Eastern Africa")) &&
+                        (ribbon.target.index !== m.indexOf("Eastern Africa"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "waf":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Western Africa")) &&
-                    (ribbon.target.index !== m.indexOf("Western Africa"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Western Africa")) &&
+                        (ribbon.target.index !== m.indexOf("Western Africa"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "saf":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Southern Africa")) &&
-                    (ribbon.target.index !== m.indexOf("Southern Africa"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Southern Africa")) &&
+                        (ribbon.target.index !== m.indexOf("Southern Africa"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "maf":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Middle Africa")) &&
-                    (ribbon.target.index !== m.indexOf("Middle Africa"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Middle Africa")) &&
+                        (ribbon.target.index !== m.indexOf("Middle Africa"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "was":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Western Asia")) &&
-                    (ribbon.target.index !== m.indexOf("Western Asia"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Western Asia")) &&
+                        (ribbon.target.index !== m.indexOf("Western Asia"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "sea":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("South-Eastern Asia")) &&
-                    (ribbon.target.index !== m.indexOf("South-Eastern Asia"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("South-Eastern Asia")) &&
+                        (ribbon.target.index !== m.indexOf("South-Eastern Asia"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "sas":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Southern Asia")) &&
-                    (ribbon.target.index !== m.indexOf("Southern Asia"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Southern Asia")) &&
+                        (ribbon.target.index !== m.indexOf("Southern Asia"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "eas":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Eastern Asia")) &&
-                    (ribbon.target.index !== m.indexOf("Eastern Asia"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Eastern Asia")) &&
+                        (ribbon.target.index !== m.indexOf("Eastern Asia"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "cas":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Central Asia")) &&
-                    (ribbon.target.index !== m.indexOf("Central Asia"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Central Asia")) &&
+                        (ribbon.target.index !== m.indexOf("Central Asia"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "pol":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Polynesia")) &&
-                    (ribbon.target.index !== m.indexOf("Polynesia"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Polynesia")) &&
+                        (ribbon.target.index !== m.indexOf("Polynesia"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "mel":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Melanesia")) &&
-                    (ribbon.target.index !== m.indexOf("Melanesia"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Melanesia")) &&
+                        (ribbon.target.index !== m.indexOf("Melanesia"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "mic":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Micronesia")) &&
-                    (ribbon.target.index !== m.indexOf("Micronesia"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Micronesia")) &&
+                        (ribbon.target.index !== m.indexOf("Micronesia"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "car":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Caribbean")) &&
-                    (ribbon.target.index !== m.indexOf("Caribbean"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Caribbean")) &&
+                        (ribbon.target.index !== m.indexOf("Caribbean"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         case "nz":
             g.selectAll(".ribbon")
-            .filter(function (ribbon) {
-                return (
-                    (ribbon.source.index !== m.indexOf("Australia and New Zealand")) &&
-                    (ribbon.target.index !== m.indexOf("Australia and New Zealand"))
-                );
-            })
-            .on('mouseenter', null)
-            .transition().duration(transitionDuration)
-            .style("opacity", fadedOpacity);
+                .filter(function (ribbon) {
+                    return (
+                        (ribbon.source.index !== m.indexOf("Australia and New Zealand")) &&
+                        (ribbon.target.index !== m.indexOf("Australia and New Zealand"))
+                    );
+                })
+                .on('mouseenter', null)
+                .transition().duration(transitionDuration)
+                .style("opacity", fadedOpacity);
             break;
         default:
             break;
