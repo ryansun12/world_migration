@@ -1,8 +1,3 @@
-/*
-    Adding nice transitions for rendering/switching between these datasets
-    Position the tooltips more consistently, potentially static somewhere, since it appears somewhat randomly when hovering over many ribbons currently. 
-    A timelapse slider for how the data changes over time
-*/
 var slider = document.getElementById("myRange");
 var output = document.getElementById("demo");
 
@@ -58,15 +53,13 @@ let reg = ['Northern Europe', 'Eastern Europe', 'Southern Europe', 'Western Euro
  'Northern America', 'South America', 'Central America', 'Northern Africa', 'Southern Africa', 
  'Western Africa', 'Eastern Africa', 'Middle Africa', 'Western Asia', 'South-Eastern Asia', 'Southern Asia',
 'Eastern Asia', 'Central Asia', 'Polynesia', 'Melanesia', 'Micronesia', 'Caribbean', 'Australia and New Zealand']
-let nums = [13035652, 19260736, 15700215, 27202982, 50930692, 5624648, 1973625,
- 2064631,2963361, 5943547, 5547344, 2088711, 36211042, 9170873, 13437554, 379678, 5300776, 41887, 77927 
-, 100617, 1236540, 7558270]
+
+let obj = {};
 
 // console.log(nums)
 
 //tick values 
-// This is copied from Mike Bostock's example :) 
-// Given the group data (index, startAngle, endAngle, value, angle)
+//Given the group data (index, startAngle, endAngle, value, angle)
 //Generates a value and angle, necessary for the tick marks to display neatly
 function groupTicks(d, step) {
     // console.log(d)
@@ -127,15 +120,18 @@ function render(data) {
     ribbonsG = g.append("g"),
     groupsG = g.append("g");
 
-    var matrix = generateMatrix(data),
-    chords = chord(matrix);
-
-    console.log(matrix)
-    // let i = 0
-    // for (e of matrix){
-    //    console.log(e.reduce((a,b) => a+b, 0), matrix.names[i++])
-    // }
+    var matrix = generateMatrix(data)
     
+    let i = 0
+    for (e of matrix){
+        obj[`${e.reduce((a,b) => a+b, 0)}`] = matrix.names[i++]
+        // console.log(e.reduce((a,b) => a+b, 0), matrix.names[i++])
+    }
+    console.log(obj)
+    
+    var chords = chord(matrix);
+    // console.log(matrix)
+
     color.domain(matrix.map(function (d, i) {
         return i;
     }));
@@ -400,8 +396,8 @@ let toggle = () => {
 
 let i = 0;
 let regSort = (a,b) => {
-    // console.log(a, nums.indexOf(a), reg[nums.indexOf(a)], b)
-    return nums.indexOf(a) - nums.indexOf(b)
+    // console.log(a, reg.indexOf(obj[`${a}`]), obj[`${a}`])
+    return reg.indexOf(obj[`${a}`]) - reg.indexOf(obj[`${b}`])
 }
 
 let regs = () =>{
