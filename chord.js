@@ -11,7 +11,7 @@ var curFile = "migration.csv"
 // Update the current slider value (each time you drag the slider handle)
 // This just makes 2019 display instead of 2020, since data is for 2019, and I don't want to deal with
 // the slider step.
-slider.oninput =function () {
+slider.oninput = function () {
     display = +this.value;
     if (this.value == 2020) {
         display = 2019
@@ -20,7 +20,7 @@ slider.oninput =function () {
 }
 
 slider.onmouseup = function () {
-    switch(display){
+    switch (display) {
         case 1990:
             curFile = "migration1.csv"
             break;
@@ -43,6 +43,7 @@ slider.onmouseup = function () {
             curFile = "migration6.csv"
             break;
     }
+    document.getElementById("select2").value = "default"
     d3.selectAll("svg > *").remove();
     // console.log(display, curFile)
     main();
@@ -51,11 +52,11 @@ slider.onmouseup = function () {
 
 
 let reg = ['Northern Europe', 'Eastern Europe', 'Southern Europe', 'Western Europe',
- 'Northern America', 'South America', 'Central America', 'Northern Africa', 'Southern Africa', 
- 'Western Africa', 'Eastern Africa', 'Middle Africa', 'Western Asia', 'South-Eastern Asia', 'Southern Asia',
-'Eastern Asia', 'Central Asia', 'Polynesia', 'Melanesia', 'Micronesia', 'Caribbean', 'Australia and New Zealand']
+    'Northern America', 'South America', 'Central America', 'Northern Africa', 'Southern Africa',
+    'Western Africa', 'Eastern Africa', 'Middle Africa', 'Western Asia', 'South-Eastern Asia', 'Southern Asia',
+    'Eastern Asia', 'Central Asia', 'Polynesia', 'Melanesia', 'Micronesia', 'Caribbean', 'Australia and New Zealand']
 
-let colors = [0,2,2,3,0,2,2,2,0,3,3,0,1,3,4,3,1,5,1,5,5,5]
+let colors = [0, 2, 2, 3, 0, 2, 2, 2, 0, 3, 3, 0, 1, 3, 4, 3, 1, 5, 1, 5, 5, 5]
 
 let obj = {};
 
@@ -97,26 +98,26 @@ var ribbon = d3.ribbon()
         // .sortGroups(d3.descending)
         .sortSubgroups(d3.descending)
 
-    arc = d3.arc()
-        .innerRadius(innerRadius)
-        .outerRadius(outerRadius),
+arc = d3.arc()
+    .innerRadius(innerRadius)
+    .outerRadius(outerRadius),
 
     color1 = d3.scaleOrdinal()
         .range(['#baffc9', '#77dd77']),
-        
+
     color2 = d3.scaleOrdinal()
-    // .range(d3.schemeBlues[3]),
-    .range(['#bae1ff', '#77accb']),
-    
+        // .range(d3.schemeBlues[3]),
+        .range(['#bae1ff', '#77accb']),
+
     color3 = d3.scaleOrdinal()
-    .range(['#ffffba', '#fdfd96']),
-    
+        .range(['#ffffba', '#fdfd96']),
+
     color4 = d3.scaleOrdinal()
-    .range(['#ffb3ba', '#c23b22']),
-    
+        .range(['#ffb3ba', '#c23b22']),
+
     color5 = d3.scaleOrdinal()
         .range(['#ffb347']),
-    
+
     color6 = d3.scaleOrdinal()
         .range(d3.schemeGreys[5]);
 
@@ -127,22 +128,25 @@ var popoverOptions = {
 };
 
 var svg = d3.select("body").append("svg")
-.attr("width", width)
-.attr("height", height)
+    .attr("width", width)
+    .attr("height", height)
 
+var m;
 
 function render(data) {
-    
+
     g = svg.append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"),
-    ribbonsG = g.append("g"),
-    groupsG = g.append("g");
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"),
+        ribbonsG = g.append("g"),
+        groupsG = g.append("g");
 
     var matrix = generateMatrix(data)
-    
+
+    m = matrix.names;
+
     let i = 0
-    for (e of matrix){
-        obj[`${e.reduce((a,b) => a+b, 0)}`] = matrix.names[i++]
+    for (e of matrix) {
+        obj[`${e.reduce((a, b) => a + b, 0)}`] = matrix.names[i++]
         // console.log(e.reduce((a,b) => a+b, 0), matrix.names[i++])
     }
     // console.log(obj)
@@ -150,24 +154,24 @@ function render(data) {
     var chords = chord(matrix);
     // console.log(matrix.names)
     colors = [];
-    for (e of matrix.names){
+    for (e of matrix.names) {
         let x = reg.indexOf(e);
-        if (x >= 0 && x < 4){
+        if (x >= 0 && x < 4) {
             colors.push(0)
         }
-        else if (x >= 4 && x < 7){
+        else if (x >= 4 && x < 7) {
             colors.push(1)
         }
-        else if(x >=7 && x < 12){
+        else if (x >= 7 && x < 12) {
             colors.push(2)
         }
-        else if(x >= 12 && x < 17){
+        else if (x >= 12 && x < 17) {
             colors.push(3)
         }
-        else if(x >= 17 && x < 21){
+        else if (x >= 17 && x < 21) {
             colors.push(5)
         }
-        else{
+        else {
             colors.push(4)
         }
     }
@@ -182,7 +186,7 @@ function render(data) {
         .style("fill", function (d) {
             // console.log(d)
             var x = colors[d.source.index]
-            switch(x) {
+            switch (x) {
                 case 0:
                     return color1(d.source.index)
                 case 1:
@@ -193,14 +197,14 @@ function render(data) {
                     return color4(d.source.index)
                 case 4:
                     return color5(d.source.index)
-                case 5: 
+                case 5:
                     return color6(d.source.index)
             }
             // return color(d.source.index);
         })
         .style("stroke", function (d) {
             var x = colors[d.source.index]
-            switch(x) {
+            switch (x) {
                 case 0:
                     return d3.rgb(color1(d.source.index)).darker()
                 case 1:
@@ -211,7 +215,7 @@ function render(data) {
                     return d3.rgb(color4(d.source.index)).darker()
                 case 4:
                     return d3.rgb(color5(d.source.index)).darker()
-                case 5: 
+                case 5:
                     return d3.rgb(color6(d.source.index)).darker()
             }
             // return d3.rgb(color(d.source.index)).darker();
@@ -249,7 +253,7 @@ function render(data) {
         .attr("d", arc)
         .style("fill", function (group) {
             var x = colors[group.index]
-            switch(x) {
+            switch (x) {
                 case 0:
                     return color1(group.index)
                 case 1:
@@ -260,14 +264,14 @@ function render(data) {
                     return color4(group.index)
                 case 4:
                     return color5(group.index)
-                case 5: 
+                case 5:
                     return color6(group.index)
             }
             // return color(group.index);
         })
         .style("stroke", function (group) {
             var x = colors[group.index]
-            switch(x) {
+            switch (x) {
                 case 0:
                     return d3.rgb(color1(group.index)).darker()
                 case 1:
@@ -278,23 +282,23 @@ function render(data) {
                     return d3.rgb(color4(group.index)).darker()
                 case 4:
                     return d3.rgb(color5(group.index)).darker()
-                case 5: 
+                case 5:
                     return d3.rgb(color6(group.index)).darker()
             }
             // return d3.rgb(color(group.index)).darker();
         })
         .transition(t)
         .style("opacity", opacity);
-        groups
-        .call(groupHover);
+    // groups
+    //     .call(groupHover);
 
     // Render the chord group labels.
     var angle = d3.local(),
         flip = d3.local();
 
     groups
-    .append("text")
-    .transition(t)
+        .append("text")
+        .transition(t)
         .each(function (d) {
             angle.set(this, (d.startAngle + d.endAngle) / 2)
             flip.set(this, angle.get(this) > Math.PI);
@@ -315,23 +319,23 @@ function render(data) {
         })
         .attr("alignment-baseline", "central")
         //i added this 
-        .attr("dx", d => {return (d.startAngle + d.endAngle) / 2 > Math.PI ? "-2.3em" : "2.3em"}) 
+        .attr("dx", d => { return (d.startAngle + d.endAngle) / 2 > Math.PI ? "-2.3em" : "2.3em" })
         .style("font-family", '"Helvetica Neue", Helvetica')
         .style("font-size", "10pt")
         .style("cursor", "default")
 
-        groups
-        .call(groupHover);
-        
+    // groups
+    //     .call(groupHover);
+
     // console.log(chords.groups)
     //Create a tick group, calls groupTicks to get the value and angle 
-    let ticks = 
+    let ticks =
         groups.append("g")
-        .selectAll("g")
-        // .data(chord.groups)
-        .data(d => groupTicks(d,3000000)) //call Mike Bostock's function to compute relevant angle
-        .join("g")
-        .attr("transform", d => `rotate(${d.angle * 180 / Math.PI - 90}) translate(${outerRadius},0)`);
+            .selectAll("g")
+            // .data(chord.groups)
+            .data(d => groupTicks(d, 3000000)) //call Mike Bostock's function to compute relevant angle
+            .join("g")
+            .attr("transform", d => `rotate(${d.angle * 180 / Math.PI - 90}) translate(${outerRadius},0)`);
 
     //tick line
     ticks.append("line") //type: a line
@@ -348,7 +352,7 @@ function render(data) {
         .attr("y", ".25rem") //some offset
         .attr("transform", d => d.angle > Math.PI ? "rotate(180) translate(-15)" : null)
         .attr("text-anchor", d => d.angle > Math.PI ? "end" : null)
-        .text(d =>  formatValue(d.value));
+        .text(d => formatValue(d.value));
 }
 
 // Sets up hover interaction to highlight a chord group.
@@ -356,6 +360,7 @@ function render(data) {
 function groupHover(selection) {
     selection
         .on("mouseover", function (group) {
+            // console.log(group)
             g.selectAll(".ribbon")
                 .filter(function (ribbon) {
                     return (
@@ -420,12 +425,12 @@ let main = () => {
         })
         d3.json('hierarchy.json').then(h => {
             var dataForRegions = aggregate(data, h)
-    
+
                 // Reduce clutter by filtering out links with relatively low counts.
                 .filter(function (d) {
                     return d.count > threshold;
                 });
-    
+
             render(dataForRegions);
         });
     })
@@ -466,14 +471,15 @@ function aggregate(data, hierarchy) {
 }
 
 let toggle = () => {
+    document.getElementById("select2").value = "default"
     var x = document.getElementById("select").value;
     // console.log(x)
     switch (x) {
         case 'default':
             d3.selectAll("svg > *").remove();
             chord = d3.chord()
-            .padAngle(chordPadding)
-            .sortSubgroups(d3.descending)
+                .padAngle(chordPadding)
+                .sortSubgroups(d3.descending)
             main();
             break;
         case 'region':
@@ -491,38 +497,329 @@ let toggle = () => {
     }
 }
 
-let i = 0;
-let regSort = (a,b) => {
+let toggle2 = () => {
+    var x = document.getElementById("select2").value;
+
+    g.selectAll(".ribbon")
+    .on("mouseenter", function (d) {
+        var src = m[d.source.index];
+        var dest = m[d.target.index];
+        popoverOptions.content = [
+            "<strong>" + src + " to " + dest + "</strong>",
+            valueFormat(d.target.value),
+            "<br><strong>" + dest + " to " + src + "</strong>",
+            valueFormat(d.source.value)
+        ].join("<br>");
+        $(this).popover(popoverOptions);
+        $(this).popover("show");
+    })
+    .on("mouseleave", function (d) {
+        $(this).popover("hide");
+    })
+    .transition().duration(transitionDuration)
+    .style("opacity", opacity);
+
+    switch (x) {
+        case "ne":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Northern Europe")) &&
+                    (ribbon.target.index !== m.indexOf("Northern Europe"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "ee":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Eastern Europe")) &&
+                    (ribbon.target.index !== m.indexOf("Eastern Europe"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "we":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Western Europe")) &&
+                    (ribbon.target.index !== m.indexOf("Western Europe"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "se":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Southern Europe")) &&
+                    (ribbon.target.index !== m.indexOf("Southern Europe"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "na":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Northern America")) &&
+                    (ribbon.target.index !== m.indexOf("Northern America"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "sa":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("South America")) &&
+                    (ribbon.target.index !== m.indexOf("South America"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "ca":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Central America")) &&
+                    (ribbon.target.index !== m.indexOf("Central America"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "naf":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Northern Africa")) &&
+                    (ribbon.target.index !== m.indexOf("Northern Africa"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "eaf":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Eastern Africa")) &&
+                    (ribbon.target.index !== m.indexOf("Eastern Africa"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "waf":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Western Africa")) &&
+                    (ribbon.target.index !== m.indexOf("Western Africa"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "saf":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Southern Africa")) &&
+                    (ribbon.target.index !== m.indexOf("Southern Africa"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "maf":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Middle Africa")) &&
+                    (ribbon.target.index !== m.indexOf("Middle Africa"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "was":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Western Asia")) &&
+                    (ribbon.target.index !== m.indexOf("Western Asia"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "sea":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("South-Eastern Asia")) &&
+                    (ribbon.target.index !== m.indexOf("South-Eastern Asia"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "sas":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Southern Asia")) &&
+                    (ribbon.target.index !== m.indexOf("Southern Asia"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "eas":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Eastern Asia")) &&
+                    (ribbon.target.index !== m.indexOf("Eastern Asia"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "cas":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Central Asia")) &&
+                    (ribbon.target.index !== m.indexOf("Central Asia"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "pol":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Polynesia")) &&
+                    (ribbon.target.index !== m.indexOf("Polynesia"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "mel":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Melanesia")) &&
+                    (ribbon.target.index !== m.indexOf("Melanesia"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "mic":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Micronesia")) &&
+                    (ribbon.target.index !== m.indexOf("Micronesia"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "car":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Caribbean")) &&
+                    (ribbon.target.index !== m.indexOf("Caribbean"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        case "nz":
+            g.selectAll(".ribbon")
+            .filter(function (ribbon) {
+                return (
+                    (ribbon.source.index !== m.indexOf("Australia and New Zealand")) &&
+                    (ribbon.target.index !== m.indexOf("Australia and New Zealand"))
+                );
+            })
+            .on('mouseenter', null)
+            .transition().duration(transitionDuration)
+            .style("opacity", fadedOpacity);
+            break;
+        default:
+            break;
+    }
+}
+
+let regSort = (a, b) => {
     // console.log(a, reg.indexOf(obj[`${a}`]), obj[`${a}`])
     return reg.indexOf(obj[`${a}`]) - reg.indexOf(obj[`${b}`])
 }
 
-let regs = () =>{
+let regs = () => {
     chord = d3.chord()
-    .padAngle(chordPadding)
-    .sortGroups(regSort)
-    .sortSubgroups(d3.descending),
+        .padAngle(chordPadding)
+        .sortGroups(regSort)
+        .sortSubgroups(d3.descending),
 
-    main();
+        main();
 }
 
-let desc = () =>{
+let desc = () => {
     chord = d3.chord()
-    .padAngle(chordPadding)
-    .sortGroups(d3.descending)
-    .sortSubgroups(d3.descending),
+        .padAngle(chordPadding)
+        .sortGroups(d3.descending)
+        .sortSubgroups(d3.descending),
 
-    main();
+        main();
 }
 
 
-let asc = () =>{
+let asc = () => {
     chord = d3.chord()
-    .padAngle(chordPadding)
-    .sortGroups(d3.ascending)
-    .sortSubgroups(d3.descending),
+        .padAngle(chordPadding)
+        .sortGroups(d3.ascending)
+        .sortSubgroups(d3.descending),
 
-    main();
+        main();
 }
 
 main();
