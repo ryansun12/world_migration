@@ -357,26 +357,26 @@ function render(data) {
 
 // Sets up hover interaction to highlight a chord group.
 // Used for both the arcs and the text labels.
-function groupHover(selection) {
-    selection
-        .on("mouseover", function (group) {
-            // console.log(group)
-            g.selectAll(".ribbon")
-                .filter(function (ribbon) {
-                    return (
-                        (ribbon.source.index !== group.index) &&
-                        (ribbon.target.index !== group.index)
-                    );
-                })
-                .transition().duration(transitionDuration)
-                .style("opacity", fadedOpacity);
-        })
-        .on("mouseout", function () {
-            g.selectAll(".ribbon")
-                .transition().duration(transitionDuration)
-                .style("opacity", opacity);
-        });
-}
+// function groupHover(selection) {
+//     selection
+//         .on("mouseover", function (group) {
+//             // console.log(group)
+//             g.selectAll(".ribbon")
+//                 .filter(function (ribbon) {
+//                     return (
+//                         (ribbon.source.index !== group.index) &&
+//                         (ribbon.target.index !== group.index)
+//                     );
+//                 })
+//                 .transition().duration(transitionDuration)
+//                 .style("opacity", fadedOpacity);
+//         })
+//         .on("mouseout", function () {
+//             g.selectAll(".ribbon")
+//                 .transition().duration(transitionDuration)
+//                 .style("opacity", opacity);
+//         });
+// }
 
 // Generates a matrix (2D array) from the given data, which is expected to
 // have fields {origin, destination, count}. The matrix data structure is required
