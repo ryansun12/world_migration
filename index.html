@@ -21,7 +21,7 @@
             <bold>World Migration 1990-2019</bold>
         </h1>
     </div>
-    
+
     <div class="options">
         <div class="bar">
             <select id="select" onchange="toggle()">
@@ -30,7 +30,7 @@
                 <option value="asc">Ascending</option>
                 <option value="desc">Descending</option>
             </select>
-            
+
             <div>
                 <div class="slidecontainer">
                     <input type="range" min="1990" max="2020" value="2015" class="slider" id="myRange">
@@ -66,7 +66,7 @@
         </div>
     </div>
     <script type="text/javascript" src="chord.js"></script>
-    
+
     <div style="text-align: center;">
         <div class="box" style="display:inline-block; margin-bottom:50px; width:fit-content;">
             <p style="margin-bottom: 0">
@@ -74,22 +74,61 @@
             </p>
         </div>
     </div>
-    
+
     <div class="footer" style="padding: 24px; width:100%;">
-        <p>
-            Created by: Ryan Sun in collaboration with Suresh Lodha
-        </p>
-        <p>
-            Spring 2020
-        </p>
-        <p>
-            Files: index.html, chord.js, chord.css, hierarchy.json, migration.csv, migration1.csv, migration2.csv, migration3.csv, migration4.csv, migration5.csv, migration6.csv
-        </p>
-        <p>
-            Data Source: <a href="https://www.un.org/en/development/desa/population/migration/data/estimates2/index.asp"> United Nations Migration Data </a>
-        </p>
-        <p>
-            Code Source: <a href="https://bl.ocks.org/curran/8c5bb1e0dd8ea98695d28c8a0ccfc533"> found here </a>
+        <div style="text-align: center;">
+            <p>
+                <strong>
+                    Created by:
+                </strong>
+                Ryan Sun
+            </p>
+            <p>
+                <strong>
+                    In collaboration with:
+                </strong>
+                Suresh Lodha
+            </p>
+        </div><br>
+        <div class="columns">
+            <div class="column is-3">
+                <div>
+                    <strong>Date</strong> <br>
+                    Spring 2020
+                </div>
+            </div>
+            <div class="column is-3">
+                <div>
+                    <strong>Files</strong>
+                </div>
+                <p>
+                    index.html, chord.js, chord.css, hierarchy.json, migration.csv, migration1.csv,
+                    migration2.csv,
+                    migration3.csv, migration4.csv, migration5.csv, migration6.csv
+                </p>
+
+            </div>
+            <div class="column is-3">
+
+                <div>
+                    <strong>Data Source</strong>
+                </div>
+                <a href="https://www.un.org/en/development/desa/population/migration/data/estimates2/index.asp"> United
+                    Nations Migration Data </a>
+            </div>
+            <div class="column is-3">
+                <div>
+                    <strong>Code Sources</strong>
+                </div>
+                <a href="https://bl.ocks.org/curran/8c5bb1e0dd8ea98695d28c8a0ccfc533"> Global
+                    Migration in
+                    2015 (Curran Kelleher)</a> <br>
+                <a href="https://observablehq.com/@d3/chord-diagram">Chord Diagram (Mike Bostock)</a>
+
+            </div>
+        </div><br>
+        <p style="text-align: center; font-size: 11px;">
+            <a href="https://ryansun12.github.io/world_migration/"> GitHub link</a>
         </p>
     </div>
 </body>

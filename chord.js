@@ -1,3 +1,15 @@
+/*
+    Relevant sources:
+        Data: 
+            https://www.un.org/en/development/desa/population/migration/data/estimates2/index.asp
+        Code: 
+            https://bl.ocks.org/curran/8c5bb1e0dd8ea98695d28c8a0ccfc533
+            https://observablehq.com/@d3/chord-diagram
+            
+    Hosted at:
+        https://ryansun12.github.io/world_migration/
+*/
+
 var slider = document.getElementById("myRange");
 var output = document.getElementById("demo");
 
