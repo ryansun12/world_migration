@@ -7,35 +7,66 @@
     <link rel="stylesheet" type="text/css" href="chord.css">
     <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
     <script type="module" src=""></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
-    <title>Chord Diagram</title>
+    <title>World Migration 1990-2019</title>
 </head>
 
 <body>
-    <h1 style="text-align:center; color:#534e4e">
-        <bold>World Migration 1990-2019</bold>
-    </h1>
+    <div class="notification is-light" style="margin-bottom:20px;">
+            <h1 style="text-align:center;">
+                <bold>World Migration 1990-2019</bold>
+            </h1>
+    </div>
 
     <div class="options">
-        <select id="select" onchange="toggle()">
-            <option value="default" selected>Original</option>
-            <option value="region">By Region</option>
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-        </select>
-    
-        <div>
-            <div class="slidecontainer">
-                <input type="range" min="1990" max="2020" value="2015" class="slider" id="myRange">
+        <div class="bar">
+            <select id="select" onchange="toggle()">
+                <option value="default" selected>Original</option>
+                <option value="region">By Region</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        
+            <div>
+                <div class="slidecontainer">
+                    <input type="range" min="1990" max="2020" value="2015" class="slider" id="myRange">
+                </div>
+                <p><span id="demo"></span></p>
             </div>
-            <p>Year: <span id="demo"></span></p>
         </div>
     </div>
     
     <script type="text/javascript" src="chord.js"></script>
+
+    <div style="text-align: center;">
+        <div class="box" style="display:inline-block; margin-bottom:50px; width:fit-content;">
+            <p style="margin-bottom: 0">
+                The width of the ribbon shows people migrating <strong>into </strong>that region.
+            </p>
+        </div>
+    </div>
+
+    <div class="footer" style="padding: 24px; width:100%;">
+        <p>
+            Created by: Ryan Sun in collaboration with Suresh Lodha
+        </p>
+        <p>
+            Spring 2020
+        </p>
+        <p>
+            Files: index.html, chord.js, chord.css, hierarchy.json, migration.csv, migration1.csv, migration2.csv, migration3.csv, migration4.csv, migration5.csv, migration6.csv
+        </p>
+        <p>
+            Data from: United Nations <a href="https://www.un.org/en/development/desa/population/migration/data/estimates2/index.asp"> here </a>
+        </p>
+        <p>
+            Original Code from: <a href="https://bl.ocks.org/curran/8c5bb1e0dd8ea98695d28c8a0ccfc533"> here </a>
+        </p>
+    </div>
 </body>
 
 </html>

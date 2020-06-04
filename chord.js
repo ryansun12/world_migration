@@ -48,7 +48,7 @@ slider.onmouseup = function () {
             curFile = "migration6.csv"
             break;
     }
-    d3.selectAll("svg").remove();
+    d3.selectAll("svg > *").remove();
     console.log(display, curFile)
     main();
 
@@ -115,10 +115,12 @@ var popoverOptions = {
     template: '<div class="popover" role="tooltip"><div class="popover-arrow"></div><div class="popover-content"></div></div>'
 };
 
+var svg = d3.select("body").append("svg")
+.attr("width", width)
+.attr("height", height)
+
+
 function render(data) {
-    var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height)
     
     g = svg.append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"),
@@ -375,22 +377,22 @@ let toggle = () => {
     // console.log(x)
     switch (x) {
         case 'default':
-            d3.selectAll("svg").remove();
+            d3.selectAll("svg > *").remove();
             chord = d3.chord()
             .padAngle(chordPadding)
             .sortSubgroups(d3.descending)
             main();
             break;
         case 'region':
-            d3.selectAll("svg").remove();
+            d3.selectAll("svg > *").remove();
             regs();
             break;
         case 'desc':
-            d3.selectAll("svg").remove();
+            d3.selectAll("svg > *").remove();
             desc();
             break;
         case 'asc':
-            d3.selectAll("svg").remove();
+            d3.selectAll("svg > *").remove();
             asc();
             break;
     }

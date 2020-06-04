@@ -1,6 +1,7 @@
 body {
     text-align: center;
-    overflow-x: hidden;
+    overflow: none;
+    position:relative;
 }
 
 .slidecontainer {
@@ -43,10 +44,17 @@ body {
   }
 
   .options{
-    position:relative;
-    left:50%;
-    margin: 0 0 0 -115px;
-    display:flex;
+    text-align: center;
+  }
+  .bar{
+    display:inline-flex;
+  }
+
+  .footer{
+    text-align: left;
+    color: #444343;
+    position:absolute;
+    float:left;
   }
 
   #select{
