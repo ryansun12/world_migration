@@ -44,19 +44,20 @@ slider.onmouseup = function () {
             break;
     }
     d3.selectAll("svg > *").remove();
-    console.log(display, curFile)
+    // console.log(display, curFile)
     main();
 
 }
+
 
 let reg = ['Northern Europe', 'Eastern Europe', 'Southern Europe', 'Western Europe',
  'Northern America', 'South America', 'Central America', 'Northern Africa', 'Southern Africa', 
  'Western Africa', 'Eastern Africa', 'Middle Africa', 'Western Asia', 'South-Eastern Asia', 'Southern Asia',
 'Eastern Asia', 'Central Asia', 'Polynesia', 'Melanesia', 'Micronesia', 'Caribbean', 'Australia and New Zealand']
 
-let obj = {};
+let colors = [0,2,2,3,0,2,2,2,0,3,3,0,1,3,4,3,1,5,1,5,5,5]
 
-// console.log(nums)
+let obj = {};
 
 //tick values 
 //Given the group data (index, startAngle, endAngle, value, angle)
@@ -100,9 +101,26 @@ var ribbon = d3.ribbon()
         .innerRadius(innerRadius)
         .outerRadius(outerRadius),
 
-    color = d3.scaleOrdinal()
-        // .range(d3.schemeCategory10);
-        .range(d3.schemeSpectral[11])
+    color1 = d3.scaleOrdinal()
+        .range(['#baffc9', '#77dd77']),
+        
+    color2 = d3.scaleOrdinal()
+    // .range(d3.schemeBlues[3]),
+    .range(['#bae1ff', '#77accb']),
+    
+    color3 = d3.scaleOrdinal()
+    .range(['#ffffba', '#fdfd96']),
+    
+    color4 = d3.scaleOrdinal()
+    .range(['#ffb3ba', '#c23b22']),
+    
+    color5 = d3.scaleOrdinal()
+        .range(['#ffb347']),
+    
+    color6 = d3.scaleOrdinal()
+        .range(d3.schemeGreys[5]);
+
+
 var popoverOptions = {
     html: true,
     template: '<div class="popover" role="tooltip"><div class="popover-arrow"></div><div class="popover-content"></div></div>'
@@ -127,14 +145,32 @@ function render(data) {
         obj[`${e.reduce((a,b) => a+b, 0)}`] = matrix.names[i++]
         // console.log(e.reduce((a,b) => a+b, 0), matrix.names[i++])
     }
-    console.log(obj)
-    
-    var chords = chord(matrix);
-    // console.log(matrix)
+    // console.log(obj)
 
-    color.domain(matrix.map(function (d, i) {
-        return i;
-    }));
+    var chords = chord(matrix);
+    // console.log(matrix.names)
+    colors = [];
+    for (e of matrix.names){
+        let x = reg.indexOf(e);
+        if (x >= 0 && x < 4){
+            colors.push(0)
+        }
+        else if (x >= 4 && x < 7){
+            colors.push(1)
+        }
+        else if(x >=7 && x < 12){
+            colors.push(2)
+        }
+        else if(x >= 12 && x < 17){
+            colors.push(3)
+        }
+        else if(x >= 17 && x < 21){
+            colors.push(5)
+        }
+        else{
+            colors.push(4)
+        }
+    }
 
     // Render the ribbons.
     ribbonsG.selectAll("path")
@@ -144,10 +180,41 @@ function render(data) {
         .attr("class", "ribbon")
         .attr("d", ribbon)
         .style("fill", function (d) {
-            return color(d.source.index);
+            // console.log(d)
+            var x = colors[d.source.index]
+            switch(x) {
+                case 0:
+                    return color1(d.source.index)
+                case 1:
+                    return color2(d.source.index)
+                case 2:
+                    return color3(d.source.index)
+                case 3:
+                    return color4(d.source.index)
+                case 4:
+                    return color5(d.source.index)
+                case 5: 
+                    return color6(d.source.index)
+            }
+            // return color(d.source.index);
         })
         .style("stroke", function (d) {
-            return d3.rgb(color(d.source.index)).darker();
+            var x = colors[d.source.index]
+            switch(x) {
+                case 0:
+                    return d3.rgb(color1(d.source.index)).darker()
+                case 1:
+                    return d3.rgb(color2(d.source.index)).darker()
+                case 2:
+                    return d3.rgb(color3(d.source.index)).darker()
+                case 3:
+                    return d3.rgb(color4(d.source.index)).darker()
+                case 4:
+                    return d3.rgb(color5(d.source.index)).darker()
+                case 5: 
+                    return d3.rgb(color6(d.source.index)).darker()
+            }
+            // return d3.rgb(color(d.source.index)).darker();
         })
         .style("opacity", opacity)
         .on("mouseenter", function (d) {
@@ -181,10 +248,40 @@ function render(data) {
         .attr("class", "arc")
         .attr("d", arc)
         .style("fill", function (group) {
-            return color(group.index);
+            var x = colors[group.index]
+            switch(x) {
+                case 0:
+                    return color1(group.index)
+                case 1:
+                    return color2(group.index)
+                case 2:
+                    return color3(group.index)
+                case 3:
+                    return color4(group.index)
+                case 4:
+                    return color5(group.index)
+                case 5: 
+                    return color6(group.index)
+            }
+            // return color(group.index);
         })
         .style("stroke", function (group) {
-            return d3.rgb(color(group.index)).darker();
+            var x = colors[group.index]
+            switch(x) {
+                case 0:
+                    return d3.rgb(color1(group.index)).darker()
+                case 1:
+                    return d3.rgb(color2(group.index)).darker()
+                case 2:
+                    return d3.rgb(color3(group.index)).darker()
+                case 3:
+                    return d3.rgb(color4(group.index)).darker()
+                case 4:
+                    return d3.rgb(color5(group.index)).darker()
+                case 5: 
+                    return d3.rgb(color6(group.index)).darker()
+            }
+            // return d3.rgb(color(group.index)).darker();
         })
         .transition(t)
         .style("opacity", opacity);
